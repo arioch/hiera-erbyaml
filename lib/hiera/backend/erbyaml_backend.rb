@@ -71,7 +71,7 @@ class Hiera
       end
 
       def erb_parsing(scope, question)
-        if scope.class == Puppet::DataBinding::Variables
+        if scope.class.to_s == 'Puppet::DataBinding::Variables'
           class << scope
             def get_scope
               @variable_bindings
@@ -93,7 +93,7 @@ class Hiera
             answer = question.collect { |x| x = erb_parsing(scope, x)  }
           when Hash
             answer = question.inject({}) { |h, (k, v)| h[k] = erb_parsing(scope, v); h }
-          when String 
+          when String
             if ! question.include?('<%')
               answer = question
             else
